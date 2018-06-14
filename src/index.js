@@ -1,1 +1,3 @@
-export SetupComponent from './setupComponent';
+import SetupComponent from './setupComponent';
+
+export { SetupComponent };
