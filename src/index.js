@@ -1,0 +1,1 @@
+export SetupComponent from './setupComponent';
