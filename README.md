@@ -16,6 +16,8 @@ However, immediately, it became tedious to write a setup() for every component; 
 
 ## Usage
 
+First, install the [required packages](requirements)!
+
 Import the package:
 
 ```javascript
@@ -133,6 +135,12 @@ const { shallow: setup } = SetupComponent(
 
 setup(); // returns element that is <h1>Hello, Kyle!</h1>
 ```
+
+## Requirements:
+
+1. `react` version ^0.14.9 || ^15.0.0 || ^16.0.0
+2. `react-dom` version ^0.14.9 || ^15.0.0 || ^16.0.0
+3. `enzyme` version ~3.3.0
 
 ## License
 
