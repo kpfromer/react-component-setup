@@ -5,14 +5,14 @@
 
 ## Description
 
-Helps setup components for use in testing via enzyme.
+This package reduces component testing boilerplate code by providing a handy `mount` and `shallow` functions using enzyme.
 
 ## Why?
 
-I read an [article from Tomasz Bak](https://medium.com/selleo/testing-react-components-best-practices-2f77ac302d12)
-describing some best react practices. One practice described that you should use a setup() instead
-of a beforeEach (in jest) in order for your code to be more readable. I liked this practice and incorporated into one of my projects.
-But immediatly, it became tedious to write a setup() for every component, thus I created `react-component-setup`.
+I read an [article by Tomasz Bak](https://medium.com/selleo/testing-react-components-best-practices-2f77ac302d12)
+Describing some best react practices. One practice described that you should use a setup() instead
+of a beforeEach (in jest) for your code to be more readable. I liked this practice and incorporated into one of my projects.
+However, immediately, it became tedious to write a setup() for every component; thus I created `react-component-setup`.
 
 ## Usage
 
@@ -22,11 +22,11 @@ Import the package:
 import { SetupComponent } from 'react-component-setup';
 ```
 
-Then run the `SetupComponent` intially in your Reactjs test file to generate
+Then run the `SetupComponent` initially in your Reactjs test file to generate
 default properties and automatic element fetching.
 
 `SetupComponent` will return an object with `mount` and `shallow` functions.
-Each of which correspond with their respective enzyme call. Example return:
+Each of which corresponds with their respective enzyme call. Example return:
 
 ```javascript
 {
@@ -56,7 +56,7 @@ const { shallow: setup } = SetupComponent(CoolReactComponent); // Component to c
 
 Note that the `{ shallow: setup } = ...` is just a [javascript object deconstructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment).
 
-Then add a simple test using whatever testing framework you want, in this case I used jest.
+Then add a simple test using whatever testing framework you want, in this case, I used jest.
 
 ```javascript
 describe('CoolReactComponent', () => {
@@ -72,7 +72,7 @@ Both `mount` and `shallow` return an object of `wrapper` which is the enzyme sha
 #### Find an element automatically
 
 If you want to find an element automatically (you test that element quite often)
-you can add it to the `SetupComponent`'s elementsToFind list. Example:
+You can add it to the `SetupComponent`'s elementsToFind list. Example:
 
 ```javascript
 import React, { Component } from 'react';
