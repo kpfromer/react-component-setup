@@ -7,10 +7,16 @@
 
 This package reduces component testing boilerplate code by providing a handy `mount` and `shallow` functions using enzyme.
 
+## Installiation
+
+Run the following command:
+
+`npm install --save-dev react-component-setup`
+
 ## Why?
 
 I read an [article by Tomasz Bak](https://medium.com/selleo/testing-react-components-best-practices-2f77ac302d12)
-Describing some best react practices. One practice described that you should use a setup() instead
+describing some best react practices. One practice described that you should use a setup() instead
 of a beforeEach (in jest) for your code to be more readable. I liked this practice and incorporated into one of my projects.
 However, immediately, it became tedious to write a setup() for every component; thus I created `react-component-setup`.
 
