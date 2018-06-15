@@ -7,7 +7,7 @@
 
 This package reduces component testing boilerplate code by providing a handy `mount` and `shallow` functions using enzyme.
 
-## Installiation
+## Installation
 
 Run the following command:
 
