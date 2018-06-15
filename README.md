@@ -58,7 +58,7 @@ class CoolReactComponent extends Component {
     }
 }
 
-const { shallow: setup } = SetupComponent(CoolReactComponent); // Component to construct
+const { shallow: setup } = SetupComponent({ Component: CoolReactComponent }); // Component to construct
 // I could have used mount instead of shallow if needed
 ```
 
@@ -94,7 +94,7 @@ class NameDisplayer extends Component {
     }
 }
 
-const { shallow: setup } = SetupComponent(NameDisplayer);
+const { shallow: setup } = SetupComponent({ Component: NameDisplayer });
 
 setup({
     firstName: 'Mark'
@@ -122,15 +122,15 @@ class CoolReactComponent extends Component {
     }
 }
 
-const { shallow: setup } = SetupComponent(
-    CoolReactComponent,
-    [ // the elements that should be found automatically
+const { shallow: setup } = SetupComponent({
+    Component: CoolReactComponent,
+    elementsToFind: [ // the elements that should be found automatically
         {
             name: 'coolParagraph',
             query: '.cool-paragraph'
         }
     ]
-);
+});
 
 describe('CoolReactComponent', () => {
     it('should render a chill paragraph', () => {
@@ -157,9 +157,8 @@ class DisplayName extends Component {
 }
 
 const { shallow: setup } = SetupComponent(
-    DisplayName,
-    [],
-    { // the default props for the component
+    Component: DisplayName,
+    defaultProps: { // the default props for the component
         name: 'Kyle'
     }
 );

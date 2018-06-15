@@ -17,7 +17,7 @@ class ParentComponent extends Component {
   render() {
     return <div>
       <h1>{this.props.title}</h1>
-      <ChildComponent data={this.props.data} />
+      <ChildComponent data={this.props.data}/>
     </div>
   }
 }
@@ -41,8 +41,11 @@ describe('setupComponent', () => {
     let shallow;
 
     beforeEach(() => {
-      const { shallow: testShallow } = setupComponent(TestComponent, [], {
-        coolTitle: 'i am a default prop'
+      const { shallow: testShallow } = setupComponent({
+        Component: TestComponent,
+        defaultProps: {
+          coolTitle: 'i am a default prop'
+        }
       });
 
       shallow = testShallow;
@@ -65,9 +68,12 @@ describe('setupComponent', () => {
     let mount;
 
     beforeEach(() => {
-      const { mount: testMount } = setupComponent(ParentComponent, [], {
-        title: 'default title',
-        data: 'default data'
+      const { mount: testMount } = setupComponent({
+        Component: ParentComponent,
+        defaultProps: {
+          title: 'default title',
+          data: 'default data'
+        }
       });
 
       mount = testMount;
@@ -90,12 +96,15 @@ describe('setupComponent', () => {
     let shallow;
 
     beforeEach(() => {
-      const { shallow: testShallow } = setupComponent(MultiItems, [
-        {
-          name: 'coolClass',
-          query: '.coolClass'
-        }
-      ]);
+      const { shallow: testShallow } = setupComponent({
+        Component: MultiItems,
+        elementsToFind: [
+          {
+            name: 'coolClass',
+            query: '.coolClass'
+          }
+        ]
+      });
 
       shallow = testShallow;
     });

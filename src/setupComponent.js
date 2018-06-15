@@ -1,9 +1,12 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 
-// todo: extract into a simple npm package
-const setupComponent = (Component, elementsToFind = [], defaultProps = {}) => {
-  const assembleProps = props => ({...defaultProps, ...props});
+const setupComponent = ({
+                          Component,
+                          elementsToFind = [],
+                          defaultProps = {}
+                        }) => {
+  const assembleProps = props => ( { ...defaultProps, ...props } );
 
   const constructComponent = (props, construct) => {
 
