@@ -77,6 +77,31 @@ describe('CoolReactComponent', () => {
 
 Both `mount` and `shallow` return an object of `wrapper` which is the enzyme shallow container of the constructed component.
 
+#### Defining properties for the component
+
+Most components have properties. In order to supply your properties to the component provide an object with
+the properties value. Example:
+
+```javascript
+import React, { Component } from 'react';
+import { SetupComponent } from 'react-component-setup';
+
+class NameDisplayer extends Component {
+    render() {
+        return (
+            <h1>First name: {this.props.firstName}. Last name: {this.props.lastName}.</h1>
+        );
+    }
+}
+
+const { shallow: setup } = SetupComponent(NameDisplayer);
+
+setup({
+    firstName: 'Mark'
+    lastName: 'Johnson'
+}); // returns component like <h1>First name: Mark. Last name: Johnson.</h1>
+```
+
 #### Find an element automatically
 
 If you want to find an element automatically (you test that element quite often)
@@ -110,7 +135,7 @@ const { shallow: setup } = SetupComponent(
 describe('CoolReactComponent', () => {
     it('should render a chill paragraph', () => {
         const { coolParagraph } = setup(); // coolParagraph is from the name in the list
-        expect(wrapper.html()).toMatchSnapshot();
+        expect(coolParagraph.html()).toMatchSnapshot();
     });
 });
 ```
@@ -141,6 +166,8 @@ const { shallow: setup } = SetupComponent(
 
 setup(); // returns element that is <h1>Hello, Kyle!</h1>
 ```
+
+Note: default props will be overridden by props provided in the setup function call.
 
 ## Requirements:
 
