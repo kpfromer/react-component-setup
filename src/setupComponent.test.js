@@ -41,14 +41,12 @@ describe('setupComponent', () => {
     let shallow;
 
     beforeEach(() => {
-      const { shallow: testShallow } = setupComponent({
+      ({ shallow } = setupComponent({
         Component: TestComponent,
         defaultProps: {
           coolTitle: 'i am a default prop'
         }
-      });
-
-      shallow = testShallow;
+      }));
     });
 
     it('constructs a shallow component', () => {
@@ -68,15 +66,13 @@ describe('setupComponent', () => {
     let mount;
 
     beforeEach(() => {
-      const { mount: testMount } = setupComponent({
+      ({ mount } = setupComponent({
         Component: ParentComponent,
         defaultProps: {
           title: 'default title',
           data: 'default data'
         }
-      });
-
-      mount = testMount;
+      }));
     });
 
     it('constructs a mount component', () => {
@@ -96,7 +92,7 @@ describe('setupComponent', () => {
     let shallow;
 
     beforeEach(() => {
-      const { shallow: testShallow } = setupComponent({
+      ({ shallow } = setupComponent({
         Component: MultiItems,
         elementsToFind: [
           {
@@ -104,9 +100,7 @@ describe('setupComponent', () => {
             query: '.coolClass'
           }
         ]
-      });
-
-      shallow = testShallow;
+      }));
     });
 
     it('returns the element', () => {
