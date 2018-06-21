@@ -146,6 +146,7 @@ describe('CoolReactComponent', () => {
 
 I have had trouble using elementsToFind with inputs when simulating a change.
 Simulating a change on input causes any variable reference to the element to become stale, thus the variable is useless since you will need to reuse the `wrapper.find` method.
+See more [here](https://github.com/airbnb/enzyme/issues/76#issuecomment-388112899).
 To fix this issue a newly created `refresh` method has been added to automatically refind the element for you.
 
 Basic Example:
