@@ -1,7 +1,7 @@
 # react-component-setup
 
 [![Build Status](https://travis-ci.org/kpfromer/react-component-setup.svg?branch=master)](https://travis-ci.org/kpfromer/react-component-setup)
-[![Coveralls github](https://coveralls.io/repos/github/kpfromer/react-component-setup/badge.svg?branch=master)](https://coveralls.io/github/kpfromer/react-component-setup?branch=master)
+[![Coveralls github](https://img.shields.io/coveralls/github/kpfromer/react-component-setup.svg)](https://coveralls.io/github/kpfromer/react-component-setup?branch=master)
 
 ## Description
 
