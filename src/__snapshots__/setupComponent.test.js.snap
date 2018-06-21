@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`setupComponent element refresh returns the "refound" element 1`] = `"unchanged"`;
+
+exports[`setupComponent element refresh returns the "refound" element 2`] = `"changed input!"`;
+
 exports[`setupComponent given \`elementsToFind\` returns the element 1`] = `
 <div
   className="coolClass"

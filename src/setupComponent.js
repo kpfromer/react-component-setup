@@ -1,5 +1,6 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
+import { REFRESH_SYMBOL } from "./constants";
 
 const setupComponent = ({
                           Component,
@@ -15,11 +16,25 @@ const setupComponent = ({
     const foundElements = {};
 
     elementsToFind.forEach(element => {
-      foundElements[element.name] = wrapper.find(element.query)
+
+      const elementWithRefresh = wrapper.find(element.query);
+      elementWithRefresh[REFRESH_SYMBOL] = element.name;
+
+      foundElements[element.name] = elementWithRefresh;
     });
+
+
+
+    const refresh = refreshElement =>
+      wrapper.find(
+        elementsToFind
+          .find(element => element.name === refreshElement[REFRESH_SYMBOL])
+          .query
+      );
 
     return {
       wrapper,
+      refresh,
       ...foundElements
     }
   };

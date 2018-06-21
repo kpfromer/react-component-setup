@@ -63,8 +63,7 @@
       "src/**/*.{js,jsx}",
       "!src/index.js",
       "!src/setupTests.js",
-      "!<rootDir>/node_modules/",
-      "!<rootDir>/path/to/dir/"
+      "!src/constants.js"
     ]
   }
 }

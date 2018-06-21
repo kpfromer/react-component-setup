@@ -36,6 +36,24 @@ class MultiItems extends Component {
   }
 }
 
+class InputComponent extends Component {
+
+  state = {
+    val: 'unchanged'
+  };
+
+  changeVal = event => this.setState({ val: event.target.value });
+
+  render() {
+    return (
+      <div>
+        <h1>title</h1>
+        <input value={this.state.val} onChange={this.changeVal} />
+      </div>
+    );
+  }
+}
+
 describe('setupComponent', () => {
   describe('shallow', () => {
     let shallow;
@@ -105,6 +123,29 @@ describe('setupComponent', () => {
 
     it('returns the element', () => {
       expect(shallow().coolClass).toMatchSnapshot();
+    });
+  });
+
+  describe('element refresh', () => {
+    let shallow;
+    beforeEach(() => {
+      ({ shallow } = setupComponent({
+        Component: InputComponent,
+        elementsToFind: [
+          {
+            name: 'input',
+            query: 'input'
+          }
+        ]
+      }))
+    });
+
+    it('returns the "refound" element', () => {
+      const { input, refresh } = shallow();
+      input.simulate('change', { target: { value: 'changed input!' } });
+      // Checks if input changes if it does that mean enzyme fixed this issue and refresh will be useless
+      expect(input.props().value).toMatchSnapshot();
+      expect(refresh(input).props().value).toMatchSnapshot();
     });
   });
 });
