@@ -105,7 +105,9 @@ setup({
 #### Find an element automatically
 
 If you want to find an element automatically (you test that element quite often)
-You can add it to the `SetupComponent`'s elementsToFind list. Example:
+You can add it to the `SetupComponent`'s elementsToFind list.
+All elementsToFind does is it returns the `wrapper.find()` of the `query` using the `name`.
+Example:
 
 ```javascript
 import React, { Component } from 'react';
@@ -136,6 +138,68 @@ describe('CoolReactComponent', () => {
     it('should render a chill paragraph', () => {
         const { coolParagraph } = setup(); // coolParagraph is from the name in the list
         expect(coolParagraph.html()).toMatchSnapshot();
+    });
+});
+```
+
+#### Refreshing elements in `elementsToFind`
+
+I have had trouble using elementsToFind with inputs when simulating a change.
+Simulating a change on input causes any variable reference to the element to become stale, thus the variable is useless since you will need to reuse the `wrapper.find` method.
+To fix this issue a newly created `refresh` method has been added to automatically refind the element for you.
+
+Basic Example:
+
+```javascript
+const { wrapper, coolCustomElementToFind, refresh } = setup(); // setup is the the shallow or mount function created from SetupComponent
+
+const refreshedCustomElement = refresh(coolCustomElementToFind); // refresh does not change coolCustomElementToFind
+
+```
+
+Full Example:
+
+```javascript
+import React, { Component } from 'react';
+import { SetupComponent } from 'react-component-setup';
+
+class InputComponent extends Component {
+
+  state = {
+    val: 'unchanged'
+  };
+
+  changeVal = event => this.setState({ val: event.target.value });
+
+  render() {
+    return (
+      <div>
+        <h1>title</h1>
+        <input value={this.state.val} onChange={this.changeVal} />
+      </div>
+    );
+  }
+}
+
+const { shallow: setup } = setupComponent({
+    Component: InputComponent,
+    elementsToFind: [
+      {
+        name: 'input',
+        query: 'input'
+      }
+    ]
+})
+
+describe('Component', () => {
+    it('updates values', () => {
+        const { input, refresh } = setup();
+
+        input.simulate('change', { target: { value: 'A new input value!' } });
+        // By now the input variable is outdated and it's `props('value')` don't actual match the new value
+        // It needs to be refreshed
+
+        expect(refresh(input).props().value).toBe('A new input value!');
     });
 });
 ```
