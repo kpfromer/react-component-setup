@@ -221,3 +221,6 @@ $RECYCLE.BIN/
 src
 .travis.yml
 .gitignore
+.babelrc
+CHANGELOG.md
+rollup.config.js
