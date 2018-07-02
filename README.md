@@ -58,7 +58,7 @@ class CoolReactComponent extends Component {
     }
 }
 
-const { shallow: setup } = SetupComponent({ Component: CoolReactComponent }); // Component to construct
+const { shallow: setup } = SetupComponent({ component: CoolReactComponent }); // Component to construct
 // I could have used mount instead of shallow if needed
 ```
 
@@ -94,7 +94,7 @@ class NameDisplayer extends Component {
     }
 }
 
-const { shallow: setup } = SetupComponent({ Component: NameDisplayer });
+const { shallow: setup } = SetupComponent({ component: NameDisplayer });
 
 setup({
     firstName: 'Mark'
@@ -125,7 +125,7 @@ class CoolReactComponent extends Component {
 }
 
 const { shallow: setup } = SetupComponent({
-    Component: CoolReactComponent,
+    component: CoolReactComponent,
     elementsToFind: [ // the elements that should be found automatically
         {
             name: 'coolParagraph',
@@ -183,7 +183,7 @@ class InputComponent extends Component {
 }
 
 const { shallow: setup } = setupComponent({
-    Component: InputComponent,
+    component: InputComponent,
     elementsToFind: [
       {
         name: 'input',
@@ -222,7 +222,7 @@ class DisplayName extends Component {
 }
 
 const { shallow: setup } = SetupComponent(
-    Component: DisplayName,
+    component: DisplayName,
     defaultProps: { // the default props for the component
         name: 'Kyle'
     }
