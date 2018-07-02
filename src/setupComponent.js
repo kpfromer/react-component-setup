@@ -3,7 +3,7 @@ import { mount, shallow } from "enzyme";
 import { REFRESH_SYMBOL } from "./constants";
 
 const setupComponent = ({
-                          Component,
+                          component: Component,
                           elementsToFind = [],
                           defaultProps = {}
                         }) => {

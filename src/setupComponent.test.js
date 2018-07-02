@@ -60,7 +60,7 @@ describe('setupComponent', () => {
 
     beforeEach(() => {
       ({ shallow } = setupComponent({
-        Component: TestComponent,
+        component: TestComponent,
         defaultProps: {
           coolTitle: 'i am a default prop'
         }
@@ -85,7 +85,7 @@ describe('setupComponent', () => {
 
     beforeEach(() => {
       ({ mount } = setupComponent({
-        Component: ParentComponent,
+        component: ParentComponent,
         defaultProps: {
           title: 'default title',
           data: 'default data'
@@ -111,7 +111,7 @@ describe('setupComponent', () => {
 
     beforeEach(() => {
       ({ shallow } = setupComponent({
-        Component: MultiItems,
+        component: MultiItems,
         elementsToFind: [
           {
             name: 'coolClass',
@@ -130,7 +130,7 @@ describe('setupComponent', () => {
     let shallow;
     beforeEach(() => {
       ({ shallow } = setupComponent({
-        Component: InputComponent,
+        component: InputComponent,
         elementsToFind: [
           {
             name: 'input',
