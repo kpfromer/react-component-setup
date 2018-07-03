@@ -233,6 +233,44 @@ setup(); // returns element that is <h1>Hello, Kyle!</h1>
 
 Note: default props will be overridden by props provided in the setup function call.
 
+#### Enzyme shallow and mount options
+
+To add TODO!
+If you want to add [enzyme options](https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md#arguments)
+to the shallow or mount command they can be provided similarly to default properties via the `defaultEnzymeOptions`.
+
+Example:
+
+```javascript
+import { SetupComponent } from 'react-component-setup';
+
+const { shallow: setup } = SetupComponent(
+    component: ComponentName,
+    defaultEnzymeOptions: {
+        context: {
+            themecolor: '#fff'
+        }
+    }
+);
+```
+
+To change the options on the fly provide a second argument to shallow/mount function.
+
+```javascript
+import { SetupComponent } from 'react-component-setup';
+
+const { shallow: setup } = SetupComponent(
+    component: ComponentName,
+    defaultEnzymeOptions: {
+        context: {
+            themecolor: '#fff'
+        }
+    }
+);
+
+setup({}, { context: { themecolor: '#different theme color' } )
+```
+
 ## Requirements:
 
 1. `react` version ^0.14.9 || ^15.0.0 || ^16.0.0
