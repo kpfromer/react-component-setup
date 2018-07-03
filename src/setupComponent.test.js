@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import setupComponent from "./setupComponent";
 import * as enzyme from 'enzyme';
 
-jest.mock('enzyme', () => ({
+jest.mock('enzyme', () => ( {
   shallow: jest.fn(),
   mount: jest.fn()
-}));
+} ));
 
 class TestComponent extends Component {
   render() {
@@ -54,7 +54,7 @@ class InputComponent extends Component {
     return (
       <div>
         <h1>title</h1>
-        <input value={this.state.val} onChange={this.changeVal} />
+        <input value={this.state.val} onChange={this.changeVal}/>
       </div>
     );
   }
@@ -72,12 +72,17 @@ describe('setupComponent', () => {
     let shallow, mockWrapper;
 
     beforeEach(() => {
-      ({ shallow } = setupComponent({
+      ( { shallow } = setupComponent({
         component: TestComponent,
         defaultProps: {
           coolTitle: 'i am a default prop'
+        },
+        defaultEnzymeOptions: {
+          context: {
+            coolContextValue: '#themecolor'
+          }
         }
-      }));
+      }) );
 
       mockWrapper = {
         enzymeStuff: 'cool enzyme stuff!'
@@ -92,19 +97,37 @@ describe('setupComponent', () => {
       expect(enzyme.shallow).toHaveBeenCalledWith(
         <TestComponent
           coolTitle="i am a default prop"
-        />
+        />,
+        {
+          context: {
+            coolContextValue: '#themecolor'
+          }
+        }
       );
     });
-
+    // TODO: dry
     it('overrides default props with function props', () => {
       shallow({
         coolTitle: 'I am a cool overridden prop!!'
       });
-      expect(enzyme.shallow).toHaveBeenCalledWith(
+      expect(enzyme.shallow.mock.calls[0][0]).toEqual(
         <TestComponent
           coolTitle="I am a cool overridden prop!!"
         />
       );
+    });
+    it('overrides default enzyme options with function options', () => {
+      const newContext = {
+        context: {
+          coolContextValue: 'other value'
+        }
+      };
+      shallow(
+        {},
+        newContext
+      );
+
+      expect(enzyme.shallow.mock.calls[0][1]).toEqual(newContext)
     });
   });
 
@@ -112,13 +135,18 @@ describe('setupComponent', () => {
     let mount, mockWrapper;
 
     beforeEach(() => {
-      ({ mount } = setupComponent({
+      ( { mount } = setupComponent({
         component: ParentComponent,
         defaultProps: {
           title: 'default title',
           data: 'default data'
+        },
+        defaultEnzymeOptions: {
+          context: {
+            variable: 'old'
+          }
         }
-      }));
+      }) );
       mockWrapper = {
         enzymeStuff: 'cool enzyme stuff!'
       };
@@ -133,20 +161,36 @@ describe('setupComponent', () => {
         <ParentComponent
           title="default title"
           data="default data"
-        />
+        />,
+        {
+          context: {
+            variable: 'old'
+          }
+        }
       );
     });
-
     it('overrides default props with function props', () => {
       mount({
         data: 'overridden data'
       });
-      expect(enzyme.mount).toHaveBeenCalledWith(
+      expect(enzyme.mount.mock.calls[0][0]).toEqual(
         <ParentComponent
           title="default title"
           data="overridden data"
         />
       );
+    });
+    it('overrides default enzyme options with function options', () => {
+      const newContext = {
+        context: {
+          variable: 'new'
+        }
+      };
+      mount(
+        {},
+        newContext
+      );
+      expect(enzyme.mount.mock.calls[0][1]).toEqual(newContext);
     });
   });
 
@@ -154,7 +198,7 @@ describe('setupComponent', () => {
     let shallow, mockWrapper, mockFind;
 
     beforeEach(() => {
-      ({ shallow } = setupComponent({
+      ( { shallow } = setupComponent({
         component: MultiItems,
         elementsToFind: [
           {
@@ -162,7 +206,7 @@ describe('setupComponent', () => {
             query: '.coolClass'
           }
         ]
-      }));
+      }) );
 
       mockFind = jest.fn();
       mockWrapper = {
@@ -184,7 +228,7 @@ describe('setupComponent', () => {
     let shallow, mockWrapper, mockFind;
 
     beforeEach(() => {
-      ({ shallow } = setupComponent({
+      ( { shallow } = setupComponent({
         component: InputComponent,
         elementsToFind: [
           {
@@ -192,7 +236,7 @@ describe('setupComponent', () => {
             query: 'input'
           }
         ]
-      }));
+      }) );
 
       mockFind = jest.fn();
       mockWrapper = {
