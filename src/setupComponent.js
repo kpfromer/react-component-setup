@@ -5,13 +5,18 @@ import { REFRESH_SYMBOL } from "./constants";
 const setupComponent = ({
                           component: Component,
                           elementsToFind = [],
-                          defaultProps = {}
+                          defaultProps = {},
+                          defaultEnzymeOptions = {}
                         }) => {
   const assembleProps = props => ( { ...defaultProps, ...props } );
+  const assemableEnzymeOptions = options => ({ ...defaultEnzymeOptions, ...options });
 
-  const constructComponent = (props, construct) => {
+  const constructComponent = (props, enzymeOptions, construct) => {
 
-    const wrapper = construct(<Component {...assembleProps(props)}/>);
+    const wrapper = construct(
+      <Component {...assembleProps(props)}/>,
+      assemableEnzymeOptions(enzymeOptions)
+    );
 
     const foundElements = {};
 
@@ -40,8 +45,8 @@ const setupComponent = ({
   };
 
   return {
-    mount: (props = {}) => constructComponent(props, mount),
-    shallow: (props = {}) => constructComponent(props, shallow)
+    mount: (props = {}, enzymeOptions = {}) => constructComponent(props, enzymeOptions, mount),
+    shallow: (props = {}, enzymeOptions = {}) => constructComponent(props, enzymeOptions, shallow)
   }
 };
 
