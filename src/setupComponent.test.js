@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import setupComponent from "./setupComponent";
+import * as enzyme from 'enzyme';
+
+jest.mock('enzyme', () => ({
+  shallow: jest.fn(),
+  mount: jest.fn()
+}));
 
 class TestComponent extends Component {
   render() {
@@ -54,9 +60,16 @@ class InputComponent extends Component {
   }
 }
 
+// TODO: dry
 describe('setupComponent', () => {
+
+  afterEach(() => {
+    enzyme.mount.mockClear();
+    enzyme.shallow.mockClear();
+  });
+
   describe('shallow', () => {
-    let shallow;
+    let shallow, mockWrapper;
 
     beforeEach(() => {
       ({ shallow } = setupComponent({
@@ -65,23 +78,38 @@ describe('setupComponent', () => {
           coolTitle: 'i am a default prop'
         }
       }));
+
+      mockWrapper = {
+        enzymeStuff: 'cool enzyme stuff!'
+      };
+
+      enzyme.shallow.mockReturnValue(mockWrapper);
     });
 
     it('constructs a shallow component', () => {
       const { wrapper } = shallow();
-      expect(wrapper).toMatchSnapshot();
+      expect(wrapper).toBe(mockWrapper);
+      expect(enzyme.shallow).toHaveBeenCalledWith(
+        <TestComponent
+          coolTitle="i am a default prop"
+        />
+      );
     });
 
     it('overrides default props with function props', () => {
-      const { wrapper } = shallow({
+      shallow({
         coolTitle: 'I am a cool overridden prop!!'
       });
-      expect(wrapper).toMatchSnapshot();
+      expect(enzyme.shallow).toHaveBeenCalledWith(
+        <TestComponent
+          coolTitle="I am a cool overridden prop!!"
+        />
+      );
     });
   });
 
   describe('mount', () => {
-    let mount;
+    let mount, mockWrapper;
 
     beforeEach(() => {
       ({ mount } = setupComponent({
@@ -91,23 +119,39 @@ describe('setupComponent', () => {
           data: 'default data'
         }
       }));
+      mockWrapper = {
+        enzymeStuff: 'cool enzyme stuff!'
+      };
+
+      enzyme.mount.mockReturnValue(mockWrapper);
     });
 
     it('constructs a mount component', () => {
       const { wrapper } = mount();
-      expect(wrapper).toMatchSnapshot();
+      expect(wrapper).toBe(mockWrapper);
+      expect(enzyme.mount).toHaveBeenCalledWith(
+        <ParentComponent
+          title="default title"
+          data="default data"
+        />
+      );
     });
 
     it('overrides default props with function props', () => {
-      const { wrapper } = mount({
+      mount({
         data: 'overridden data'
       });
-      expect(wrapper).toMatchSnapshot();
+      expect(enzyme.mount).toHaveBeenCalledWith(
+        <ParentComponent
+          title="default title"
+          data="overridden data"
+        />
+      );
     });
   });
 
   describe('given `elementsToFind`', () => {
-    let shallow;
+    let shallow, mockWrapper, mockFind;
 
     beforeEach(() => {
       ({ shallow } = setupComponent({
@@ -119,15 +163,26 @@ describe('setupComponent', () => {
           }
         ]
       }));
+
+      mockFind = jest.fn();
+      mockWrapper = {
+        enzymeStuff: 'cool things',
+        find: mockFind
+      };
+      enzyme.shallow.mockReturnValue(mockWrapper);
     });
 
     it('returns the element', () => {
-      expect(shallow().coolClass).toMatchSnapshot();
+      const mockElement = jest.fn();
+      mockFind.mockReturnValue(mockElement);
+      expect(shallow().coolClass).toBe(mockElement);
+      expect(mockFind).toHaveBeenCalledWith('.coolClass')
     });
   });
 
   describe('element refresh', () => {
-    let shallow;
+    let shallow, mockWrapper, mockFind;
+
     beforeEach(() => {
       ({ shallow } = setupComponent({
         component: InputComponent,
@@ -137,15 +192,37 @@ describe('setupComponent', () => {
             query: 'input'
           }
         ]
-      }))
+      }));
+
+      mockFind = jest.fn();
+      mockWrapper = {
+        enzymeStuff: 'cool things',
+        find: mockFind
+      };
+      enzyme.shallow.mockReturnValue(mockWrapper);
     });
 
     it('returns the "refound" element', () => {
+      let countCall = 0;
+      const firstFound = jest.fn();
+      const secondFound = jest.fn();
+      mockFind.mockImplementation(() => {
+        countCall++;
+
+        if (countCall === 1) {
+          return firstFound;
+        } else if (countCall === 2) {
+          return secondFound;
+        }
+        throw new Error('More than one count');
+      });
+
       const { input, refresh } = shallow();
-      input.simulate('change', { target: { value: 'changed input!' } });
-      // Checks if input changes if it does that mean enzyme fixed this issue and refresh will be useless
-      expect(input.props().value).toMatchSnapshot();
-      expect(refresh(input).props().value).toMatchSnapshot();
+      expect(refresh(input)).toBe(secondFound);
+      expect(mockFind.mock.calls).toEqual([
+        ['input'],
+        ['input']
+      ]);
     });
   });
 });
